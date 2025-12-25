@@ -1,11 +1,6 @@
 # 🎮 Dota 2 Random Build Generator
 
 
-
-[![Screenshot](https://via.placeholder.com/800x400/1a1a2e/ffffff?text=Dota+2+Random+Build+Generator)](screenshot.png)
-
-</div>
-
 ## ✨ Особенности
 
 ### 🎯 Полная случайность
