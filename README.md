@@ -40,9 +40,14 @@
 - Python 3.8 или выше
 - pip (менеджер пакетов Python)
 
-### Установка
 
-1. Клонируйте репозиторий:
-`bash
-git clone https://github.com/yourusername/dota2-build-generator.git
-cd dota2-build-generator
+dota2-build-generator/
+├── app.py                 # Основное Flask приложение
+├── Doza.db                # SQLite база данных (создается автоматически)
+├── requirements.txt       # Зависимости Python
+├── README.md             # Этот файл
+├── static/
+│   └── style.css         # Стили CSS
+└── templates/
+    ├── index.html        # Главная страница
+    └── build.html        # Страница с билдом
