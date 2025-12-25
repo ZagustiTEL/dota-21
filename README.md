@@ -26,7 +26,6 @@
 dota2-build-generator/
 ├── app.py                 # Основное Flask приложение
 ├── Doza.db                # SQLite база данных (создается автоматически)
-├── requirements.txt       # Зависимости Python
 ├── README.md             # Этот файл
 ├── static/
 │   └── style.css         # Стили CSS
