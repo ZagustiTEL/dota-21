@@ -1,14 +1,6 @@
 # 🎮 Dota 2 Random Build Generator
 
-<div align="center">
 
-![Dota 2 Banner](https://img.shields.io/badge/Dota%202-Random%20Build%20Generator-blueviolet)
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Flask](https://img.shields.io/badge/Flask-2.3.3-green)
-![SQLite](https://img.shields.io/badge/SQLite-3-lightgrey)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-Случайный генератор билдов для Dota 2 с ценами предметов и изображениями
 
 [![Screenshot](https://via.placeholder.com/800x400/1a1a2e/ffffff?text=Dota+2+Random+Build+Generator)](screenshot.png)
 
