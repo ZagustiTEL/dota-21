@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваш случайный билд - Dota 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Дополнительные стили для лучшего отображения */
+        .skill-build-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .build-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Ваш случайный билд Dota 2</h1>
+            <div class="actions">
+                <a href="/" class="back-btn">← Назад на главную</a>
+                <a href="/generate" class="generate-btn">🔄 Сгенерировать новый билд</a>
+            </div>
+        </header>
+        
+        <main class="build-container">
+            <div class="build-header">
+                <!-- Изображение героя -->
+                <div class="hero-image-container">
+                    <img src="{{ build.hero_image }}" alt="{{ build.hero }}" class="hero-image" 
+                         onerror="this.onerror=null; this.src='https://dota2.ru/img/heroes/default.jpg';">
+                </div>
+                
+                <h2 class="hero-name">{{ build.hero }}</h2>
+                <div class="lane-badge">{{ build.lane }}</div>
+                
+                <!-- Стратегия прокачки -->
+                {% if build.skill_build %}
+                <div class="skill-build-info">
+                    <strong>Стратегия прокачки:</strong> {{ build.skill_build }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="build-sections">
+                <div class="build-section">
+                    <h3>🎁 Стартовые предметы</h3>
+                    <div class="items-grid">
+                        {% for item in build.starting_items %}
+                        <div class="item">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image"
+                                 onerror="this.onerror=null; this.src='https://dota2.ru/img/items/default.webp';">
+                            <div class="item-name">{{ item.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="build-section">
+                    <h3>⚡ Ранняя игра</h3>
+                    <div class="items-grid">
+                        {% for item in build.early_game %}
+                        <div class="item">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image"
+                                 onerror="this.onerror=null; this.src='https://dota2.ru/img/items/default.webp';">
+                            <div class="item-name">{{ item.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="build-section">
+                    <h3>💎 Коровые предметы</h3>
+                    <div class="items-grid">
+                        {% for item in build.core_items %}
+                        <div class="item">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image"
+                                 onerror="this.onerror=null; this.src='https://dota2.ru/img/items/default.webp';">
+                            <div class="item-name">{{ item.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="build-section">
+                    <h3>🔥 Поздняя игра</h3>
+                    <div class="items-grid">
+                        {% for item in build.late_game %}
+                        <div class="item">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image"
+                                 onerror="this.onerror=null; this.src='https://dota2.ru/img/items/default.webp';">
+                            <div class="item-name">{{ item.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                {% if build.neutral_items %}
+                <div class="build-section">
+                    <h3>👜 Нейтральные предметы</h3>
+                    <div class="items-grid">
+                        {% for item in build.neutral_items %}
+                        <div class="item">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image"
+                                 onerror="this.onerror=null; this.src='https://dota2.ru/img/items/default.webp';">
+                            <div class="item-name">{{ item.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+        
+        <footer>
+            <p>Dota 2 Random Build Generator © 2024 | Все права на изображения принадлежат Valve Corporation</p>
+        </footer>
+    </div>
+</body>
+</html>
