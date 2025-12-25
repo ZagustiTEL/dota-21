@@ -40,7 +40,7 @@
 - Python 3.8 или выше
 - pip (менеджер пакетов Python)
 
-
+```
 dota2-build-generator/
 ├── app.py                 # Основное Flask приложение
 ├── Doza.db                # SQLite база данных (создается автоматически)
@@ -51,3 +51,4 @@ dota2-build-generator/
 └── templates/
     ├── index.html        # Главная страница
     └── build.html        # Страница с билдом
+```
