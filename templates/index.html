@@ -10,25 +10,31 @@
     <div class="container">
         <header>
             <h1>🎮 Dota 2 Random Build Generator</h1>
-            <p>Нажмите кнопку ниже, чтобы получить случайный билд для героя Dota 2!</p>
+            <p>Выберите способ генерации билда для героя Dota 2!</p>
         </header>
         
         <main>
             <div class="generator-section">
-                <a href="/generate" class="generate-btn">🎲 Сгенерировать случайный билд</a>
-                <p class="api-note">Также доступно через <a href="/api/generate">API</a></p>
+                <div class="generator-options">
+                    <a href="/select-hero" class="generate-btn hero-select-btn">
+                        🎯 Выбрать героя
+                    </a>
+                    <a href="/generate" class="generate-btn random-btn">
+                        🎲 Случайный герой
+                    </a>
+                </div>
             </div>
             
             <div class="info-section">
                 <h2>Как это работает?</h2>
                 <div class="features">
                     <div class="feature">
-                        <h3>🎯 Случайный герой</h3>
-                        <p>Выбирается из всех героев Dota 2 с изображением</p>
+                        <h3>🎯 Выбор героя</h3>
+                        <p>Выберите конкретного героя или доверьтесь случаю</p>
                     </div>
                     <div class="feature">
                         <h3>📍 Позиция</h3>
-                        <p>Определяется роль и линия игры</p>
+                        <p>Определяется роль и линия</p>
                     </div>
                     <div class="feature">
                         <h3>📈 Сборка навыков</h3>
@@ -36,14 +42,14 @@
                     </div>
                     <div class="feature">
                         <h3>🎒 Предметы</h3>
-                        <p>Полный набор предметов с изображениями от старта до лейта</p>
+                        <p>Полный набор от старта до лейта</p>
                     </div>
                 </div>
             </div>
         </main>
         
         <footer>
-            <p>Dota 2 Random Build Generator © 2024 | Все права на изображения принадлежат Valve Corporation</p>
+            <p>Сгенерировано случайным образом. Используйте на свой страх и риск!</p>
         </footer>
     </div>
 </body>
