@@ -188,89 +188,56 @@ def populate_db():
         cursor.execute('INSERT OR IGNORE INTO heroes (name, image_url) VALUES (?, ?)', 
                       (hero_name, hero_image))
     
-    # Предметы с изображениями
-    items_data = [
-        ("Tango", "starting", "https://dota2.ru/img/items/tango.webp?1765981458"),
-        ("Healing Salve", "starting", "https://dota2.ru/img/items/healing_salve.webp?1765981458"),
-        ("Clarity", "starting", "https://dota2.ru/img/items/clarity.webp?1765981458"),
-        ("Iron Branch", "starting", "https://dota2.ru/img/items/iron_branch.webp?1765981458"),
-        ("Gauntlets of Strength", "starting", "https://dota2.ru/img/items/gauntlets_of_strength.webp?1765981458"),
-        ("Slippers of Agility", "starting", "https://dota2.ru/img/items/slippers_of_agility.webp?1765981458"),
-        ("Mantle of Intelligence", "starting", "https://dota2.ru/img/items/mantle_of_intelligence.webp?1765981458"),
-        ("Circlet", "starting", "https://dota2.ru/img/items/circlet.webp?1765981458"),
-        ("Magic Stick", "starting", "https://dota2.ru/img/items/magic_stick.webp?1765981458"),
-        ("Enchanted Mango", "starting", "https://dota2.ru/img/items/enchanted_mango.webp?1765981458"),
-        ("Faerie Fire", "starting", "https://dota2.ru/img/items/faerie_fire.webp?1765981458"),
-        ("Magic Wand", "early", "https://dota2.ru/img/items/magic_wand.webp?1765981458"),
-        ("Boots of Speed", "early", "https://dota2.ru/img/items/boots_of_speed.webp?1765981458"),
-        ("Bracer", "early", "https://dota2.ru/img/items/bracer.webp?1765981458"),
-        ("Wraith Band", "early", "https://dota2.ru/img/items/wraith_band.webp?1765981458"),
-        ("Null Talisman", "early", "https://dota2.ru/img/items/null_talisman.webp?1765981458"),
-        ("Soul Ring", "early", "https://dota2.ru/img/items/soul_ring.webp?1765981458"),
-        ("Power Treads", "early", "https://dota2.ru/img/items/power_treads.webp?1765981458"),
-        ("Phase Boots", "early", "https://dota2.ru/img/items/phase_boots.webp?1765981458"),
-        ("Arcane Boots", "early", "https://dota2.ru/img/items/arcane_boots.webp?1765981458"),
-        ("Hand of Midas", "early", "https://dota2.ru/img/items/hand_of_midas.webp?1765981458"),
-        ("Black King Bar", "core", "https://dota2.ru/img/items/black_king_bar.webp?1765981458"),
-        ("Blink Dagger", "core", "https://dota2.ru/img/items/blink_dagger.webp?1765981458"),
-        ("Force Staff", "core", "https://dota2.ru/img/items/force_staff.webp?1765981458"),
-        ("Aghanim's Scepter", "core", "https://dota2.ru/img/items/aghanims_scepter.webp?1765981458"),
-        ("Shadow Blade", "core", "https://dota2.ru/img/items/shadow_blade.webp?1765981458"),
-        ("Desolator", "core", "https://dota2.ru/img/items/desolator.webp?1765981458"),
-        ("Maelstrom", "core", "https://dota2.ru/img/items/maelstrom.webp?1765981458"),
-        ("Battle Fury", "core", "https://dota2.ru/img/items/battle_fury.webp?1765981458"),
-        ("Radiance", "core", "https://dota2.ru/img/items/radiance.webp?1765981458"),
-        ("Armlet of Mordiggian", "core", "https://dota2.ru/img/items/armlet_of_mordiggian.webp?1765981458"),
-        ("Crystalys", "core", "https://dota2.ru/img/items/crystalys.webp?1765981458"),
-        ("Echo Sabre", "core", "https://dota2.ru/img/items/echo_sabre.webp?1765981458"),
-        ("Dragon Lance", "core", "https://dota2.ru/img/items/dragon_lance.webp?1765981458"),
-        ("Abyssal Blade", "late", "https://dota2.ru/img/items/abyssal_blade.webp?1765981458"),
-        ("Butterfly", "late", "https://dota2.ru/img/items/butterfly.webp?1765981458"),
-        ("Daedalus", "late", "https://dota2.ru/img/items/daedalus.webp?1765981458"),
-        ("Divine Rapier", "late", "https://dota2.ru/img/items/divine_rapier.webp?1765981458"),
-        ("Eye of Skadi", "late", "https://dota2.ru/img/items/eye_of_skadi.webp?1765981458"),
-        ("Heart of Tarrasque", "late", "https://dota2.ru/img/items/heart_of_tarrasque.webp?1765981458"),
-        ("Monkey King Bar", "late", "https://dota2.ru/img/items/monkey_king_bar.webp?1765981458"),
-        ("Mjollnir", "late", "https://dota2.ru/img/items/mjollnir.webp?1765981458"),
-        ("Nullifier", "late", "https://dota2.ru/img/items/nullifier.webp?1765981458"),
-        ("Satanic", "late", "https://dota2.ru/img/items/satanic.webp?1765981458"),
-        ("Skull Basher", "late", "https://dota2.ru/img/items/skull_basher.webp?1765981458"),
-        ("Silver Edge", "late", "https://dota2.ru/img/items/silver_edge.webp?1765981458"),
-        ("Bloodthorn", "late", "https://dota2.ru/img/items/bloodthorn.webp?1765981458"),
-        ("Assault Cuirass", "late", "https://dota2.ru/img/items/assault_cuirass.webp?1765981458"),
-        ("Shiva's Guard", "late", "https://dota2.ru/img/items/shivas_guard.webp?1765981458"),
-        ("Scythe of Vyse", "late", "https://dota2.ru/img/items/scythe_of_vyse.webp?1765981458"),
-        ("Linken's Sphere", "late", "https://dota2.ru/img/items/linkens_sphere.webp?1765981458"),
-        ("Lotus Orb", "late", "https://dota2.ru/img/items/lotus_orb.webp?1765981458"),
-        ("Refresher Orb", "late", "https://dota2.ru/img/items/refresher_orb.webp?1765981458"),
-        ("Aghanim's Blessing", "late", "https://dota2.ru/img/items/aghanims_blessing.webp?1765981458"),
-        ("Octarine Core", "late", "https://dota2.ru/img/items/octarine_core.webp?1765981458"),
-        ("Faded Broach", "neutral", "https://dota2.ru/img/items/faded_broach.webp?1765981458"),
-        ("Arcane Ring", "neutral", "https://dota2.ru/img/items/arcane_ring.webp?1765981458"),
-        ("Ocean Heart", "neutral", "https://dota2.ru/img/items/ocean_heart.webp?1765981458"),
-        ("Titan Sliver", "neutral", "https://dota2.ru/img/items/titan_sliver.webp?1765981458"),
-        ("Dragon Scale", "neutral", "https://dota2.ru/img/items/dragon_scale.webp?1765981458"),
-        ("Essence Ring", "neutral", "https://dota2.ru/img/items/essence_ring.webp?1765981458"),
-        ("Gossamer Cape", "neutral", "https://dota2.ru/img/items/gossamer_cape.webp?1765981458"),
-        ("Philosopher's Stone", "neutral", "https://dota2.ru/img/items/philosophers_stone.webp?1765981458"),
-        ("Vambrace", "neutral", "https://dota2.ru/img/items/vambrace.webp?1765981458")
-    ]
+    # Предметы
+    items_data = {
+        "starting": [
+            "Tango", "Healing Salve", "Clarity", "Iron Branch", "Gauntlets of Strength", 
+            "Slippers of Agility", "Mantle of Intelligence", "Circlet", "Magic Stick",
+            "Enchanted Mango", "Faerie Fire"
+        ],
+        "early": [
+            "Magic Wand", "Boots of Speed", "Bracer", "Wraith Band", "Null Talisman",
+            "Soul Ring", "Power Treads", "Phase Boots", "Arcane Boots", "Hand of Midas"
+        ],
+        "core": [
+            "Black King Bar", "Blink Dagger", "Force Staff", "Aghanim's Scepter",
+            "Shadow Blade", "Desolator", "Maelstrom", "Battle Fury", "Radiance",
+            "Armlet of Mordiggian", "Crystalys", "Echo Sabre", "Dragon Lance"
+        ],
+        "late": [
+            "Abyssal Blade", "Butterfly", "Daedalus", "Divine Rapier", "Eye of Skadi",
+            "Heart of Tarrasque", "Monkey King Bar", "Mjollnir", "Nullifier",
+            "Satanic", "Skull Basher", "Silver Edge", "Bloodthorn", "Assault Cuirass",
+            "Shiva's Guard", "Scythe of Vyse", "Linken's Sphere", "Lotus Orb",
+            "Refresher Orb", "Aghanim's Blessing", "Octarine Core"
+        ],
+        "neutral": [
+            "Faded Broach", "Ocean Heart", "Iron Talon", "Royal Jelly", "Pupil's Gift",
+            "Trusty Shovel", "Quickening Charm", "Philosopher's Stone", "Essence Ring",
+            "Grove Bow", "Elven Tunic", "Cloak of Flames", "Titan Sliver", "Mind Breaker",
+            "Spell Prism", "Ninja Gear", "Illusionist's Cape", "Timeless Relic",
+            "Fusion Rune", "Mirror Shield", "Apex", "Ballista", "Book of the Dead",
+            "Ex Machina", "Fallen Sky", "Seer Stone", "Stygian Desolator", "The Leveller",
+            "Pirate Hat", "Witless Shako", "Magic Lamp", "Giant's Ring"
+        ]
+    }
     
-    for name, category, image_url in items_data:
-        cursor.execute('INSERT OR IGNORE INTO items (name, category, image_url) VALUES (?, ?, ?)', 
-                      (name, category, image_url))
+    for category, items in items_data.items():
+        for item in items:
+            cursor.execute('INSERT OR IGNORE INTO items (name, category) VALUES (?, ?)', (item, category))
     
     # Стратегии прокачки
-    skill_builds = [
-        ("aggressive", "Максимальный урон сначала, доминирование в ранней игре"),
-        ("defensive", "Максимальная выживаемость, фокус на сустейн и спасении"),
-        ("farming", "Максимальный фарм, фокус на позднюю игру"),
-        ("utility", "Максимальный контроль, фокус на поддержку команды"),
-        ("hybrid", "Сбалансированная сборка, адаптация к ситуации")
-    ]
+    skill_builds = {
+        "aggressive": ["Maximize damage skills first", "Focus on early game dominance"],
+        "defensive": ["Maximize survival skills", "Focus on sustain and escape"],
+        "farming": ["Maximize farming abilities", "Focus on late game scaling"],
+        "utility": ["Maximize crowd control", "Focus on team support"],
+        "hybrid": ["Balanced skill build", "Adapt to game situation"]
+    }
     
-    for build_type, description in skill_builds:
-        cursor.execute('INSERT OR IGNORE INTO skill_builds (type, description) VALUES (?, ?)', (build_type, description))
+    for build_type, descriptions in skill_builds.items():
+        for desc in descriptions:
+            cursor.execute('INSERT OR IGNORE INTO skill_builds (type, description) VALUES (?, ?)', (build_type, desc))
     
     # Линии
     lanes = ["Safe Lane", "Mid Lane", "Off Lane", "Soft Support", "Hard Support"]
@@ -289,6 +256,26 @@ def get_random_hero():
     conn.close()
     return result[0], result[1]  # Имя и URL изображения
 
+def get_hero_by_name(hero_name):
+    """Получить героя по имени"""
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('SELECT name, image_url FROM heroes WHERE name = ?', (hero_name,))
+    result = cursor.fetchone()
+    conn.close()
+    if result:
+        return result[0], result[1]
+    return None, None
+
+def get_all_heroes():
+    """Получить всех героев"""
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute('SELECT name FROM heroes ORDER BY name')
+    heroes = [row[0] for row in cursor.fetchall()]
+    conn.close()
+    return heroes
+
 def get_random_lane():
     """Получить случайную линию из базы данных"""
     conn = sqlite3.connect(DB_NAME)
@@ -302,23 +289,30 @@ def get_random_skill_build():
     """Получить случайную стратегию прокачки из базы данных"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT description FROM skill_builds ORDER BY RANDOM() LIMIT 1')
+    cursor.execute('SELECT type, description FROM skill_builds ORDER BY RANDOM() LIMIT 1')
     result = cursor.fetchone()
     conn.close()
-    return result[0]  # Возвращаем описание
+    return result[1]  # Возвращаем описание
 
 def get_random_items(category, limit):
     """Получить случайные предметы определенной категории"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT name, image_url FROM items WHERE category = ? ORDER BY RANDOM() LIMIT ?', (category, limit))
-    items = [{"name": row[0], "image_url": row[1]} for row in cursor.fetchall()]
+    cursor.execute('SELECT name FROM items WHERE category = ? ORDER BY RANDOM() LIMIT ?', (category, limit))
+    items = [row[0] for row in cursor.fetchall()]
     conn.close()
     return items
 
-def generate_random_build():
+def generate_random_build(hero_name=None):
     """Генерация случайного билда с использованием данных из базы данных"""
-    hero, hero_image = get_random_hero()
+    if hero_name:
+        hero, hero_image = get_hero_by_name(hero_name)
+        if not hero:
+            # Если герой не найден, берем случайного
+            hero, hero_image = get_random_hero()
+    else:
+        hero, hero_image = get_random_hero()
+    
     lane = get_random_lane()
     skill_build = get_random_skill_build()
     
@@ -346,16 +340,24 @@ def generate_random_build():
 # Маршруты приложения
 @app.route('/')
 def index():
-    return render_template('index.html')
+    heroes = get_all_heroes()
+    return render_template('index.html', heroes=heroes)
 
 @app.route('/generate')
 def generate_build():
-    build = generate_random_build()
+    hero_name = request.args.get('hero')
+    build = generate_random_build(hero_name)
     return render_template('build.html', build=build)
+
+@app.route('/select-hero')
+def select_hero():
+    heroes = get_all_heroes()
+    return render_template('select_hero.html', heroes=heroes)
 
 @app.route('/api/generate')
 def api_generate_build():
-    build = generate_random_build()
+    hero_name = request.args.get('hero')
+    build = generate_random_build(hero_name)
     return jsonify(build)
 
 @app.route('/api/heroes')
@@ -373,8 +375,8 @@ def api_get_items(category):
     """API endpoint для получения предметов по категории"""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT name, image_url FROM items WHERE category = ? ORDER BY name', (category,))
-    items = [{"name": row[0], "image_url": row[1]} for row in cursor.fetchall()]
+    cursor.execute('SELECT name FROM items WHERE category = ? ORDER BY name', (category,))
+    items = [row[0] for row in cursor.fetchall()]
     conn.close()
     return jsonify(items)
 
