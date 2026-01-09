@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выберите готовый билд - Dota 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Выберите готовый билд</h1>
+            <p>Выберите героя для просмотра готовых билдов</p>
+            <div class="actions">
+                <a href="/" class="back-btn">← На главную</a>
+                <a href="/select-hero" class="back-btn">← Случайный билд</a>
+            </div>
+        </header>
+        
+        <main>
+            <div class="hero-selection">
+                <div class="instruction">
+                    <h3>Как это работает?</h3>
+                    <p>Выберите героя для просмотра проверенных билдов от опытных игроков.</p>
+                </div>
+                
+                <div class="hero-grid">
+                    {% for hero in heroes %}
+                    <a href="/builds?hero={{ hero }}" class="hero-card">
+                        <div class="hero-name">{{ hero }}</div>
+                        <div class="hero-select-label">Готовые билды</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Проверенные билды от опытных игроков</p>
+        </footer>
+    </div>
+</body>
+</html>

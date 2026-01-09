@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Готовые билды - Dota 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Готовые билды для {{ hero_name or 'героев' }}</h1>
+            <div class="actions">
+                <a href="/" class="back-btn">← На главную</a>
+                <a href="/select-build" class="back-btn">← Выбрать героя</a>
+                <a href="/generate" class="generate-btn">Случайный билд</a>
+            </div>
+        </header>
+        
+        <main>
+            <div class="builds-list">
+                {% if builds %}
+                    {% for build in builds %}
+                    <div class="build-preview">
+                        <div class="build-preview-header">
+                            <h3>{{ build.hero }}</h3>
+                            <div class="lane-badge">{{ build.lane }}</div>
+                        </div>
+                        
+                        <div class="build-preview-items">
+                            <div class="preview-section">
+                                <strong>Основные предметы:</strong>
+                                {% for item in build.core_items[:3] %}
+                                <span class="preview-item">{{ item }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <a href="/build/{{ build.id }}" class="view-build-btn">Просмотреть билд →</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-builds">
+                        <h3>Нет готовых билдов для этого героя</h3>
+                        <a href="/generate?hero={{ hero_name }}" class="generate-btn">Сгенерировать случайный билд</a>
+                    </div>
+                {% endif %}
+            </div>
+        </main>
+        
+        <footer>
+            <p>Проверенные билды от опытных игроков</p>
+        </footer>
+    </div>
+</body>
+</html>
