@@ -290,4 +290,100 @@ footer {
     position: absolute;
     left: 0;
 }
+/* Стили для готовых билдов */
+.build-type-badge {
+    display: inline-block;
+    background: linear-gradient(45deg, #4CAF50, #2E7D32);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+
+.builds-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.build-preview {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.build-preview:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.build-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.build-preview-header h3 {
+    color: #4ecdc4;
+    font-size: 1.4rem;
+}
+
+.build-preview-items {
+    margin-bottom: 20px;
+}
+
+.preview-section {
+    margin-bottom: 10px;
+}
+
+.preview-item {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px 5px 0 0;
+    font-size: 0.9rem;
+}
+
+.view-build-btn {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.view-build-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.no-builds {
+    text-align: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.no-builds h3 {
+    color: #ff6b6b;
+    margin-bottom: 20px;
+}
+
+/* Кнопка для готовых билдов на главной */
+.predefined-btn {
+    background: linear-gradient(45deg, #4CAF50, #2E7D32) !important;
+}
 }
