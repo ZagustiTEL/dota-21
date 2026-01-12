@@ -23,7 +23,6 @@
 - Backend: Flask (Python)
 - Database: SQLite
 - Frontend: HTML5, CSS3
-- Data: Статические данные Dota 2
 
 ### 📂Структура проекта
 
