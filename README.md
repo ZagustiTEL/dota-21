@@ -44,3 +44,6 @@ Dota2-Build-Generator/
 └── static/             # Статические файлы
     └── style.css       # Основные стили
 ```
+
+
+<img width="1351" height="746" alt="image" src="https://github.com/user-attachments/assets/b55190a3-d5c6-4075-b8a1-5b76e4fae91c" />
