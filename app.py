@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, render_template, request, jsonify
 import random
 import sqlite3
@@ -21,40 +20,46 @@ def check_db_exists():
 def get_random_hero():
     """Получить случайного героя из базы данных"""
     if not check_db_exists():
-        return "Unknown Hero", ""
+        return {'name': "Unknown Hero", 'image_url': ""}
     
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('SELECT name, image_url FROM heroes ORDER BY RANDOM() LIMIT 1')
     result = cursor.fetchone()
     conn.close()
-    return result[0], result[1]  # Имя и URL изображения
+    
+    if result:
+        return {'name': result[0], 'image_url': result[1]}
+    return {'name': "Unknown Hero", 'image_url': ""}
 
 def get_hero_by_name(hero_name):
     """Получить героя по имени"""
     if not check_db_exists():
-        return None, None
+        return None
     
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('SELECT name, image_url FROM heroes WHERE name = ?', (hero_name,))
     result = cursor.fetchone()
     conn.close()
+    
     if result:
-        return result[0], result[1]
-    return None, None
+        return {'name': result[0], 'image_url': result[1]}
+    return None
 
 def get_all_heroes():
-    """Получить всех героев"""
+    """Получить всех героев с изображениями"""
     if not check_db_exists():
         return []
     
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT name FROM heroes ORDER BY name')
-    heroes = [row[0] for row in cursor.fetchall()]
+    cursor.execute('SELECT name, image_url FROM heroes ORDER BY name')
+    heroes = cursor.fetchall()
     conn.close()
-    return heroes
+    
+    # Возвращаем список словарей с именем и изображением
+    return [{'name': hero[0], 'image_url': hero[1]} for hero in heroes]
 
 def get_random_lane():
     """Получить случайную линию из базы данных"""
@@ -95,12 +100,12 @@ def get_random_items(category, limit):
 def generate_random_build(hero_name=None):
     """Генерация случайного билда с использованием данных из базы данных"""
     if hero_name:
-        hero, hero_image = get_hero_by_name(hero_name)
+        hero = get_hero_by_name(hero_name)
         if not hero:
             # Если герой не найден, берем случайного
-            hero, hero_image = get_random_hero()
+            hero = get_random_hero()
     else:
-        hero, hero_image = get_random_hero()
+        hero = get_random_hero()
     
     lane = get_random_lane()
     skill_build = get_random_skill_build()
@@ -113,8 +118,8 @@ def generate_random_build(hero_name=None):
     neutral_items = get_random_items("neutral", 2)
     
     build = {
-        "hero": hero,
-        "hero_image": hero_image,
+        "hero": hero['name'],  # Используем имя из объекта героя
+        "hero_image": hero['image_url'],  # Используем изображение из объекта героя
         "lane": lane,
         "skill_build": skill_build,
         "starting_items": starting_items,
@@ -159,8 +164,11 @@ def get_predefined_builds(hero_name=None):
         }
         
         # Получаем изображение героя
-        hero, hero_image = get_hero_by_name(build['hero'])
-        build['hero_image'] = hero_image
+        hero = get_hero_by_name(build['hero'])
+        if hero:
+            build['hero_image'] = hero['image_url']
+        else:
+            build['hero_image'] = ""
         
         builds.append(build)
     
@@ -192,8 +200,11 @@ def get_predefined_build_by_id(build_id):
         }
         
         # Получаем изображение героя
-        hero, hero_image = get_hero_by_name(build['hero'])
-        build['hero_image'] = hero_image
+        hero = get_hero_by_name(build['hero'])
+        if hero:
+            build['hero_image'] = hero['image_url']
+        else:
+            build['hero_image'] = ""
         
         conn.close()
         return build
