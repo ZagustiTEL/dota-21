@@ -26,8 +26,11 @@
                 
                 <div class="hero-grid">
                     {% for hero in heroes %}
-                    <a href="/builds?hero={{ hero }}" class="hero-card">
-                        <div class="hero-name">{{ hero }}</div>
+                    <a href="/builds?hero={{ hero.name }}" class="hero-card">
+                        <div class="hero-image-container">
+                            <img src="{{ hero.image_url }}" alt="{{ hero.name }}" class="hero-thumbnail">
+                        </div>
+                        <div class="hero-name">{{ hero.name }}</div>
                         <div class="hero-select-label">Готовые билды</div>
                     </a>
                     {% endfor %}
