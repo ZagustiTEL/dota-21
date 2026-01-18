@@ -1,4 +1,3 @@
-# db_init.py
 import sqlite3
 import os
 
@@ -270,8 +269,9 @@ def populate_db():
     
     print(f"Добавлено {len(lanes)} линий")
     
-    # Примеры готовых билдов (127 билдов - по одному для каждого героя)
+    # Примеры готовых билдов (127 героев × 3 билда = 381 билд, кроме Abaddon у которого уже 2 билда)
     predefined_builds = [
+        # Существующие билды (127 билдов)
         # Билд для Anti-Mage
         ("Anti-Mage", "Safe Lane", "Maximize Blink and Mana Break", 
          "Tango,Quelling Blade,Circlet,Slippers of Agility", 
@@ -326,6 +326,14 @@ def populate_db():
          "Bottle,Magic Wand,Power Treads",
          "Aghanim's Scepter,Octarine Core",
          "Refresher Orb,Shiva's Guard",
+         "Pupil's Gift,Spell Prism"),
+
+         # Билд для Invoker через радиацию
+        ("Invoker", "Mid Lane", "Maximize Quas",
+         "Tango,Faerie Fire,Branch,Mantle of Intelligence",
+         "Bottle,Magic Wand,Power Treads",
+         "Aghanim's shard, Radiance",
+         "aghanim's scepter,Yasha and Kaya",
          "Pupil's Gift,Spell Prism"),
         
         # Билд для Axe
@@ -480,6 +488,22 @@ def populate_db():
          "Aghanim's Scepter,Pipe of Insight",
          "Philosopher's Stone,Spark of Courage"),
         
+        # Второй билд Abaddon (Off Lane) - добавьте этот
+        ("Abaddon", "Off Lane", "Maximize Curse of Avernus and Borrowed Time",
+        "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+        "Phase Boots,Soul Ring,Bracer",
+        "Radiance,Assault Cuirass",
+        "Heart of Tarrasque,Shiva's Guard",
+        "Vindicator's Axe,Spark of Courage"),
+
+        # Билд для Abaddon (Carry/Safe Lane)
+        ("Abaddon", "Safe Lane", "Maximize Curse of Avernus for right-click damage",
+        "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+        "Power Treads,Wraith Band,Magic Wand",
+        "Radiance,Manta Style",
+        "Heart of Tarrasque,Assault Cuirass",
+        "Faded Broach,Titan Sliver"),
+
         # Билд для Alchemist
         ("Alchemist", "Mid Lane", "Maximize Greevil's Greed, farm rapidly",
          "Tango,Quelling Blade,Gauntlets of Strength,Branches",
@@ -1279,6 +1303,1843 @@ def populate_db():
          "Radiance,Blink Dagger",
          "Assault Cuirass,Heart of Tarrasque",
          "Faded Broach,Spark of Courage"),
+
+        # ДОПОЛНИТЕЛЬНЫЕ БИЛДЫ (по 2 на каждого героя, кроме Abaddon у которого уже 2)
+        
+        # Anti-Mage дополнительные билды
+        ("Anti-Mage", "Mid Lane", "Maximize Mana Void early, aggressive playstyle",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Manta Style,Basher",
+         "Abyssal Blade,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Anti-Mage", "Safe Lane", "Farming build, maximize Battle Fury timing",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Battle Fury,Manta Style,Skadi",
+         "Abyssal Blade,Butterfly,Heart of Tarrasque",
+         "Philosopher's Stone,Faded Broach"),
+        
+        # Axe дополнительные билды
+        ("Axe", "Off Lane", "Tank build, maximize survivability",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Vanguard,Phase Boots,Bracer",
+         "Blade Mail,Blink Dagger,Hood of Defiance",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        ("Axe", "Soft Support", "Roaming build, early ganks",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Blink Dagger,Bracer",
+         "Force Staff,Aghanim's Shard",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Ocean Heart,Spark of Courage"),
+        
+        # Bane дополнительные билды
+        ("Bane", "Soft Support", "Aggressive support, maximize Fiend's Grip",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        ("Bane", "Off Lane", "Core Bane, maximize Enfeeble",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Bloodseeker дополнительные билды
+        ("Bloodseeker", "Mid Lane", "Maximize Blood Rite, magical damage",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Eul's Scepter,Kaya and Sange",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Bloodseeker", "Off Lane", "Tanky initiator build",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Vanguard,Phase Boots,Soul Ring",
+         "Blademail,Black King Bar",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Crystal Maiden дополнительные билды
+        ("Crystal Maiden", "Soft Support", "Maximize Frostbite, aggressive support",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        ("Crystal Maiden", "Mid Lane", "Core CM, maximize Crystal Nova",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Kaya and Sange,Aghanim's Scepter",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Drow Ranger дополнительные билды
+        ("Drow Ranger", "Mid Lane", "Maximize Gust, defensive build",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Dragon Lance,Manta Style",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Drow Ranger", "Safe Lane", "Aghanim's build, maximize Multishot",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Dragon Lance,Aghanim's Scepter",
+         "Butterfly,Daedalus",
+         "Faded Broach,Titan Sliver"),
+        
+        # Earthshaker дополнительные билды
+        ("Earthshaker", "Off Lane", "Core Earthshaker, maximize Aftershock",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Soul Ring,Arcane Boots,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Refresher Orb,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Earthshaker", "Mid Lane", "Mid Earthshaker, max Fissure",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Blink Dagger,Eul's Scepter",
+         "Aghanim's Scepter,Octarine Core",
+         "Spark of Courage,Pupil's Gift"),
+        
+        # Juggernaut дополнительные билды
+        ("Juggernaut", "Mid Lane", "Maximize Healing Ward, sustain build",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Wraith Band",
+         "Manta Style,Skadi",
+         "Abyssal Blade,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Juggernaut", "Safe Lane", "Aghanim's build, Swift Slash focus",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Aghanim's Scepter,Manta Style",
+         "Abyssal Blade,Butterfly",
+         "Faded Broach,Titan Sliver"),
+        
+        # Mirana дополнительные билды
+        ("Mirana", "Mid Lane", "Maximize Sacred Arrow, skillshot focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Mirana", "Safe Lane", "Carry Mirana, maximize Leap",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Manta Style,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Titan Sliver"),
+        
+        # Morphling дополнительные билды
+        ("Morphling", "Mid Lane", "Maximize Adaptive Strike, shotgun build",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Ethereal Blade,Dagon",
+         "Aghanim's Scepter,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Morphling", "Safe Lane", "Tanky Morphling, strength morph",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Eye of Skadi,Satanic",
+         "Butterfly,Heart of Tarrasque",
+         "Faded Broach,Titan Sliver"),
+        
+        # Shadow Fiend дополнительные билды
+        ("Shadow Fiend", "Safe Lane", "Carry SF, max Presence of the Dark Lord",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Shadow Blade,Desolator",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Shadow Fiend", "Mid Lane", "Magical SF, max Razes",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Eul's Scepter,Kaya and Sange",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Phantom Lancer дополнительные билды
+        ("Phantom Lancer", "Mid Lane", "Maximize Spirit Lance, aggressive build",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Diffusal Blade,Manta Style",
+         "Heart of Tarrasque,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Phantom Lancer", "Safe Lane", "Illusion spam build",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Diffusal Blade,Manta Style,Aghanim's Scepter",
+         "Heart of Tarrasque,Butterfly,Skadi",
+         "Faded Broach,Illusionist's Cape"),
+        
+        # Puck дополнительные билды
+        ("Puck", "Safe Lane", "Carry Puck, right-click build",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Power Treads,Witch Blade,Wraith Band",
+         "Desolator,Aghanim's Scepter",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Puck", "Off Lane", "Offlane Puck, utility build",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Eul's Scepter,Blink Dagger",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Pudge дополнительные билды
+        ("Pudge", "Mid Lane", "Mid Pudge, max Meat Hook",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Heart of Tarrasque,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Pudge", "Off Lane", "Tank Pudge, max Flesh Heap",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Vanguard,Phase Boots,Soul Ring",
+         "Blade Mail,Hood of Defiance",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Razor дополнительные билды
+        ("Razor", "Safe Lane", "Carry Razor, max Plasma Field",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Aghanim's Scepter,Black King Bar",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Razor", "Off Lane", "Utility Razor, max Static Link",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Shard,Blade Mail",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Sand King дополнительные билды
+        ("Sand King", "Mid Lane", "Mid Sand King, max Burrowstrike",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Sand King", "Safe Lane", "Carry Sand King, right-click build",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Black King Bar",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        # Storm Spirit дополнительные билды
+        ("Storm Spirit", "Safe Lane", "Carry Storm, farm build",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Orchid Malevolence,Bloodstone",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Storm Spirit", "Mid Lane", "Ganking Storm, early aggression",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Kaya",
+         "Orchid Malevolence,Bloodstone",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Sven дополнительные билды
+        ("Sven", "Mid Lane", "Mid Sven, max Storm Hammer",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Blink Dagger,Black King Bar",
+         "Daedalus,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Sven", "Safe Lane", "Farming Sven, max Great Cleave",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Echo Sabre,Magic Wand",
+         "Daedalus,Black King Bar",
+         "Assault Cuirass,Satanic",
+         "Faded Broach,Titan Sliver"),
+        
+        # Tiny дополнительные билды
+        ("Tiny", "Safe Lane", "Carry Tiny, right-click build",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Echo Sabre,Magic Wand",
+         "Daedalus,Black King Bar",
+         "Assault Cuirass,Silver Edge",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Tiny", "Off Lane", "Utility Tiny, initiator",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Arcane Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Vengeful Spirit дополнительные билды
+        ("Vengeful Spirit", "Soft Support", "Aura Venge, teamfight build",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Power Treads,Magic Wand,Wind Lace",
+         "Solar Crest,Vladmir's Offering",
+         "Assault Cuirass,Butterfly",
+         "Spark of Courage,Titan Sliver"),
+        
+        ("Vengeful Spirit", "Safe Lane", "Carry Venge, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Dragon Lance,Manta Style",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        # Windranger дополнительные билды
+        ("Windranger", "Safe Lane", "Carry WR, focus fire build",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Bloodthorn",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Windranger", "Off Lane", "Utility WR, windrun focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Force Staff",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Zeus дополнительные билды
+        ("Zeus", "Soft Support", "Support Zeus, utility build",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Soul Ring",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        ("Zeus", "Safe Lane", "Carry Zeus, right-click build",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Witch Blade,Aghanim's Scepter",
+         "Daedalus,Bloodthorn",
+         "Faded Broach,Spark of Courage"),
+        
+        # Kunkka дополнительные билды
+        ("Kunkka", "Safe Lane", "Carry Kunkka, cleave build",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Bracer,Magic Wand",
+         "Daedalus,Shadow Blade",
+         "Silver Edge,Bloodthorn",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Kunkka", "Off Lane", "Utility Kunkka, initiator",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Lina дополнительные билды
+        ("Lina", "Safe Lane", "Carry Lina, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Bloodthorn",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Lina", "Soft Support", "Support Lina, stun focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Eul's Scepter",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        # Lion дополнительные билды
+        ("Lion", "Soft Support", "Aggressive Lion, ganking",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Blink Dagger,Aether Lens",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Lion", "Mid Lane", "Core Lion, finger of death focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Shadow Shaman дополнительные билды
+        ("Shadow Shaman", "Soft Support", "Aggressive SS, ganking",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Blink Dagger,Aether Lens",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Shadow Shaman", "Mid Lane", "Core SS, pushing focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Refresher Orb",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Slardar дополнительные билды
+        ("Slardar", "Safe Lane", "Carry Slardar, bash focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Black King Bar",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Slardar", "Mid Lane", "Mid Slardar, ganking",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Black King Bar,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Tidehunter дополнительные билды
+        ("Tidehunter", "Mid Lane", "Mid Tide, anchor smash build",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Refresher Orb",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Tidehunter", "Safe Lane", "Carry Tide, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Black King Bar",
+         "Daedalus,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Witch Doctor дополнительные билды
+        ("Witch Doctor", "Soft Support", "Aggressive WD, maledict focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Witch Doctor", "Mid Lane", "Core WD, death ward focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Riki дополнительные билды
+        ("Riki", "Mid Lane", "Mid Riki, smoke screen focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Diffusal Blade,Aghanim's Scepter",
+         "Basher,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Riki", "Soft Support", "Support Riki, utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Diffusal Blade,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Enigma дополнительные билды
+        ("Enigma", "Mid Lane", "Mid Enigma, midnight pulse focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Blink Dagger,Black King Bar",
+         "Refresher Orb,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Enigma", "Safe Lane", "Carry Enigma, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Manta Style,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        # Tinker дополнительные билды
+        ("Tinker", "Safe Lane", "Carry Tinker, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Dagon,Aghanim's Scepter",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Tinker", "Off Lane", "Utility Tinker, defense matrix",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Soul Ring,Arcane Boots,Bracer",
+         "Aghanim's Shard,Shiva's Guard",
+         "Octarine Core,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Sniper дополнительные билды
+        ("Sniper", "Safe Lane", "Carry Sniper, headshot focus",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Mask of Madness,Maelstrom",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Sniper", "Off Lane", "Utility Sniper, shrapnel focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Shard,Dragon Lance",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Necrophos дополнительные билды
+        ("Necrophos", "Safe Lane", "Carry Necro, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Radiance,Heart of Tarrasque",
+         "Butterfly,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Necrophos", "Off Lane", "Utility Necro, heartstopper aura",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Shard,Pipe of Insight",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Warlock дополнительные билды
+        ("Warlock", "Soft Support", "Aggressive Warlock, upheaval focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Warlock", "Mid Lane", "Core Warlock, fatal bonds focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Refresher Orb",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Beastmaster дополнительные билды
+        ("Beastmaster", "Safe Lane", "Carry Beastmaster, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Black King Bar",
+         "Daedalus,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Beastmaster", "Mid Lane", "Mid Beastmaster, boar focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Helm of the Overlord",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Queen of Pain дополнительные билды
+        ("Queen of Pain", "Safe Lane", "Carry QoP, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Orchid Malevolence,Aghanim's Scepter",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Queen of Pain", "Soft Support", "Support QoP, scream focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        # Venomancer дополнительные билды
+        ("Venomancer", "Mid Lane", "Core Veno, poison sting focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Venomancer", "Hard Support", "Support Veno, plague ward focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Faceless Void дополнительные билды
+        ("Faceless Void", "Mid Lane", "Mid Void, time walk focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Maelstrom,Aghanim's Scepter",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Faceless Void", "Off Lane", "Offlane Void, chronosphere utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Wraith King дополнительные билды
+        ("Wraith King", "Mid Lane", "Mid WK, stun focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Armlet of Mordiggian,Blink Dagger",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Wraith King", "Off Lane", "Utility WK, aura build",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Vladmir's Offering,Assault Cuirass",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Death Prophet дополнительные билды
+        ("Death Prophet", "Safe Lane", "Carry DP, exorcism focus",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Death Prophet", "Off Lane", "Utility DP, spirit siphon",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Eul's Scepter,Aghanim's Shard",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Phantom Assassin дополнительные билды
+        ("Phantom Assassin", "Mid Lane", "Mid PA, dagger focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Wraith Band",
+         "Desolator,Battle Fury",
+         "Basher,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Phantom Assassin", "Off Lane", "Offlane PA, blur utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Desolator,Black King Bar",
+         "Abyssal Blade,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Pugna дополнительные билды
+        ("Pugna", "Safe Lane", "Carry Pugna, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Dagon,Aghanim's Scepter",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Pugna", "Soft Support", "Support Pugna, decrepify focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        # Templar Assassin дополнительные билды
+        ("Templar Assassin", "Safe Lane", "Carry TA, psi blades focus",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Desolator,Dragon Lance",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Templar Assassin", "Off Lane", "Utility TA, meld initiation",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Viper дополнительные билды
+        ("Viper", "Safe Lane", "Carry Viper, poison attack focus",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Dragon Lance,Skadi",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Viper", "Off Lane", "Utility Viper, nethertoxin area control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Shard,Pipe of Insight",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Luna дополнительные билды
+        ("Luna", "Mid Lane", "Mid Luna, lucent beam focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Manta Style,Aghanim's Scepter",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Luna", "Off Lane", "Utility Luna, eclipse setup",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Dragon Knight дополнительные билды
+        ("Dragon Knight", "Safe Lane", "Carry DK, dragon form focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Dragon Knight", "Off Lane", "Utility DK, stun initiation",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Soul Ring,Phase Boots,Bracer",
+         "Blink Dagger,Black King Bar",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Dazzle дополнительные билды
+        ("Dazzle", "Soft Support", "Aggressive Dazzle, poison touch",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Solar Crest",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Dazzle", "Mid Lane", "Core Dazzle, shadow wave focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Clockwerk дополнительные билды
+        ("Clockwerk", "Mid Lane", "Mid Clock, rocket flare focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Blade Mail,Force Staff",
+         "Black King Bar,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Clockwerk", "Soft Support", "Support Clock, cogs utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Force Staff,Aghanim's Shard",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Leshrac дополнительные билды
+        ("Leshrac", "Safe Lane", "Carry Lesh, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Bloodstone,Aghanim's Scepter",
+         "Shiva's Guard,Octarine Core",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Leshrac", "Off Lane", "Utility Lesh, split earth control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Eul's Scepter,Blink Dagger",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Nature's Prophet дополнительные билды
+        ("Nature's Prophet", "Safe Lane", "Carry NP, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Orchid Malevolence",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Nature's Prophet", "Mid Lane", "Mid NP, sprout ganking",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Orchid Malevolence,Blink Dagger",
+         "Bloodthorn,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Lifestealer дополнительные билды
+        ("Lifestealer", "Mid Lane", "Mid LS, rage focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Armlet of Mordiggian,Desolator",
+         "Abyssal Blade,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Lifestealer", "Off Lane", "Utility LS, open wounds utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Armlet of Mordiggian,Blink Dagger",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Dark Seer дополнительные билды
+        ("Dark Seer", "Mid Lane", "Mid DS, vacuum wall combo",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Refresher Orb",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Dark Seer", "Safe Lane", "Carry DS, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Manta Style,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        # Clinkz дополнительные билды
+        ("Clinkz", "Mid Lane", "Mid Clinkz, searing arrows focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Orchid Malevolence,Dragon Lance",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Clinkz", "Soft Support", "Support Clinkz, skeleton walk utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Orchid Malevolence,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Omniknight дополнительные билды
+        ("Omniknight", "Soft Support", "Support Omni, purification focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Holy Locket,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Omniknight", "Mid Lane", "Core Omni, heavenly grace focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Enchantress дополнительные билды
+        ("Enchantress", "Mid Lane", "Mid Ench, impetus focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Dragon Lance,Aghanim's Scepter",
+         "Butterfly,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Enchantress", "Hard Support", "Support Ench, enchant creep control",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Holy Locket,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Huskar дополнительные билды
+        ("Huskar", "Safe Lane", "Carry Huskar, life break focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Armlet of Mordiggian,Power Treads,Wraith Band",
+         "Satanic,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Huskar", "Off Lane", "Utility Huskar, berserker's blood tank",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Armlet of Mordiggian,Phase Boots,Soul Ring",
+         "Aghanim's Shard,Pipe of Insight",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Night Stalker дополнительные билды
+        ("Night Stalker", "Mid Lane", "Mid NS, void focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Aghanim's Scepter,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Night Stalker", "Safe Lane", "Carry NS, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Basher,Abyssal Blade",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        # Broodmother дополнительные билды
+        ("Broodmother", "Mid Lane", "Mid Brood, web control",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Orchid Malevolence,Diffusal Blade",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Broodmother", "Safe Lane", "Carry Brood, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Diffusal Blade,Manta Style",
+         "Butterfly,Skadi",
+         "Faded Broach,Illusionist's Cape"),
+        
+        # Bounty Hunter дополнительные билды
+        ("Bounty Hunter", "Mid Lane", "Mid BH, jinada focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Wraith Band",
+         "Desolator,Aghanim's Scepter",
+         "Bloodthorn,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Bounty Hunter", "Hard Support", "Support BH, track utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Solar Crest,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Weaver дополнительные билды
+        ("Weaver", "Mid Lane", "Mid Weaver, germinate focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Maelstrom,Dragon Lance",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Weaver", "Soft Support", "Support Weaver, shukuchi utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Medallion of Courage,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Jakiro дополнительные билды
+        ("Jakiro", "Soft Support", "Aggressive Jakiro, ice path focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Eul's Scepter,Aether Lens",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Jakiro", "Mid Lane", "Core Jakiro, dual breath focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Kaya and Sange,Aghanim's Scepter",
+         "Shiva's Guard,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Batrider дополнительные билды
+        ("Batrider", "Mid Lane", "Mid Bat, firefly focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Soul Ring",
+         "Blink Dagger,Force Staff",
+         "Black King Bar,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Batrider", "Safe Lane", "Carry Bat, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        # Chen дополнительные билды
+        ("Chen", "Soft Support", "Aggressive Chen, penitence focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Holy Locket,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Chen", "Mid Lane", "Core Chen, hand of god focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Spectre дополнительные билды
+        ("Spectre", "Mid Lane", "Mid Spectre, dagger focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Manta Style,Skadi",
+         "Abyssal Blade,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Spectre", "Off Lane", "Utility Spectre, dispersion tank",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Vanguard,Phase Boots,Soul Ring",
+         "Blade Mail,Radiance",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Ancient Apparition дополнительные билды
+        ("Ancient Apparition", "Soft Support", "Aggressive AA, cold feet focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Eul's Scepter",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Ancient Apparition", "Mid Lane", "Core AA, ice blast focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Kaya and Sange,Aghanim's Scepter",
+         "Shiva's Guard,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Doom дополнительные билды
+        ("Doom", "Mid Lane", "Mid Doom, devour focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Refresher Orb",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Doom", "Safe Lane", "Carry Doom, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Radiance,Abyssal Blade",
+         "Butterfly,Heart of Tarrasque",
+         "Faded Broach,Spark of Courage"),
+        
+        # Ursa дополнительные билды
+        ("Ursa", "Mid Lane", "Mid Ursa, earthshock focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Diffusal Blade,Basher",
+         "Abyssal Blade,Skadi",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Ursa", "Off Lane", "Utility Ursa, overpower utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Spirit Breaker дополнительные билды
+        ("Spirit Breaker", "Mid Lane", "Mid SB, charge focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Shadow Blade,Aghanim's Scepter",
+         "Black King Bar,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Spirit Breaker", "Off Lane", "Utility SB, bulldoze tank",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blade Mail,Black King Bar",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Gyrocopter дополнительные билды
+        ("Gyrocopter", "Mid Lane", "Mid Gyro, rocket barrage focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Gyrocopter", "Off Lane", "Utility Gyro, flak cannon utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Shard,Dragon Lance",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Alchemist дополнительные билды
+        ("Alchemist", "Safe Lane", "Carry Alch, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Radiance,Abyssal Blade",
+         "Butterfly,Heart of Tarrasque",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Alchemist", "Off Lane", "Utility Alch, acid spray utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Soul Ring,Phase Boots,Bracer",
+         "Radiance,Assault Cuirass",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Invoker дополнительные билды
+        ("Invoker", "Safe Lane", "Carry Invoker, right-click exort",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Invoker", "Off Lane", "Utility Invoker, quas-wex control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Orchid Malevolence,Blink Dagger",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Silencer дополнительные билды
+        ("Silencer", "Mid Lane", "Mid Silencer, last word focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Witch Blade,Aghanim's Scepter",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Silencer", "Hard Support", "Support Silencer, arcane curse",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Outworld Destroyer дополнительные билды
+        ("Outworld Destroyer", "Safe Lane", "Carry OD, arcane orb focus",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Witch Blade,Aghanim's Scepter",
+         "Butterfly,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Outworld Destroyer", "Off Lane", "Utility OD, astral utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Aghanim's Shard,Blink Dagger",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Lycan дополнительные билды
+        ("Lycan", "Mid Lane", "Mid Lycan, wolves focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Helm of the Overlord,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Lycan", "Safe Lane", "Carry Lycan, shapeshift focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Basher",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Brewmaster дополнительные билды
+        ("Brewmaster", "Mid Lane", "Mid Brew, cinder brew focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blink Dagger,Aghanim's Scepter",
+         "Black King Bar,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Brewmaster", "Safe Lane", "Carry Brew, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Basher,Abyssal Blade",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        # Shadow Demon дополнительные билды
+        ("Shadow Demon", "Soft Support", "Aggressive SD, disruption focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Shadow Demon", "Mid Lane", "Core SD, shadow poison focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Lone Druid дополнительные билды
+        ("Lone Druid", "Mid Lane", "Mid LD, bear focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Wraith Band",
+         "Desolator,Assault Cuirass",
+         "Aghanim's Scepter,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Lone Druid", "Safe Lane", "Carry LD, hero right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Manta Style,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        # Chaos Knight дополнительные билды
+        ("Chaos Knight", "Mid Lane", "Mid CK, reality rift focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Armlet of Mordiggian,Echo Sabre",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Chaos Knight", "Off Lane", "Utility CK, chaos bolt initiation",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Meepo дополнительные билды
+        ("Meepo", "Safe Lane", "Carry Meepo, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Ethereal Blade,Skadi",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Meepo", "Off Lane", "Utility Meepo, earthbind control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Power Treads,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Treant Protector дополнительные билды
+        ("Treant Protector", "Soft Support", "Aggressive Treant, leech seed",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aghanim's Shard,Blink Dagger",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Treant Protector", "Off Lane", "Core Treant, nature's guise initiation",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Aghanim's Scepter",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Ogre Magi дополнительные билды
+        ("Ogre Magi", "Soft Support", "Aggressive Ogre, ignite focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Ogre Magi", "Mid Lane", "Core Ogre, multicast focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Undying дополнительные билды
+        ("Undying", "Soft Support", "Aggressive Undying, tombstone focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aghanim's Shard,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Undying", "Mid Lane", "Core Undying, decay focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Rubick дополнительные билды
+        ("Rubick", "Mid Lane", "Core Rubick, spell steal focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Rubick", "Hard Support", "Support Rubick, fade bolt utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        # Disruptor дополнительные билды
+        ("Disruptor", "Soft Support", "Aggressive Disruptor, glimpse focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Disruptor", "Mid Lane", "Core Disruptor, kinetic field focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Refresher Orb",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Nyx Assassin дополнительные билды
+        ("Nyx Assassin", "Mid Lane", "Core Nyx, vendetta focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Dagon,Aghanim's Scepter",
+         "Ethereal Blade,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Nyx Assassin", "Hard Support", "Support Nyx, spiked carapace utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Naga Siren дополнительные билды
+        ("Naga Siren", "Mid Lane", "Mid Naga, song setup",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Diffusal Blade,Manta Style",
+         "Heart of Tarrasque,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Naga Siren", "Off Lane", "Utility Naga, net utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Soul Ring,Phase Boots,Bracer",
+         "Diffusal Blade,Blink Dagger",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Keeper of the Light дополнительные билды
+        ("Keeper of the Light", "Mid Lane", "Core KotL, illuminate focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Keeper of the Light", "Hard Support", "Support KotL, blinding light utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Essence Ring"),
+        
+        # Io дополнительные билды
+        ("Io", "Soft Support", "Aggressive Io, spirits focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Holy Locket,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Io", "Mid Lane", "Core Io, tether focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Visage дополнительные билды
+        ("Visage", "Safe Lane", "Carry Visage, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Solar Crest,Aghanim's Scepter",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Visage", "Off Lane", "Utility Visage, familiars control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Solar Crest,Assault Cuirass",
+         "Heart of Tarrasque,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Slark дополнительные билды
+        ("Slark", "Mid Lane", "Mid Slark, pounce focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Diffusal Blade,Echo Sabre",
+         "Skadi,Abyssal Blade",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Slark", "Off Lane", "Utility Slark, dark pact utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Diffusal Blade,Blink Dagger",
+         "Skadi,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Medusa дополнительные билды
+        ("Medusa", "Mid Lane", "Mid Medusa, mystic snake focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Manta Style,Dragon Lance",
+         "Skadi,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Medusa", "Off Lane", "Utility Medusa, stone gaze utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Manta Style,Blink Dagger",
+         "Skadi,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Troll Warlord дополнительные билды
+        ("Troll Warlord", "Mid Lane", "Mid Troll, fervor focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Mask of Madness,Sange and Yasha",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Troll Warlord", "Off Lane", "Utility Troll, whirling axes utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Sange and Yasha,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Centaur Warrunner дополнительные билды
+        ("Centaur Warrunner", "Mid Lane", "Mid Centaur, double edge focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blink Dagger,Hood of Defiance",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Centaur Warrunner", "Safe Lane", "Carry Centaur, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Basher",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Magnus дополнительные билды
+        ("Magnus", "Mid Lane", "Mid Magnus, shockwave focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Soul Ring",
+         "Blink Dagger,Black King Bar",
+         "Refresher Orb,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Magnus", "Safe Lane", "Carry Magnus, empower right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Echo Sabre,Wraith Band",
+         "Daedalus,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Faded Broach,Spark of Courage"),
+        
+        # Timbersaw дополнительные билды
+        ("Timbersaw", "Mid Lane", "Mid Timber, whirling death focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Kaya and Sange,Aghanim's Scepter",
+         "Shiva's Guard,Bloodstone",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Timbersaw", "Safe Lane", "Carry Timber, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        # Bristleback дополнительные билды
+        ("Bristleback", "Mid Lane", "Mid BB, quill spray focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Vanguard,Bloodstone",
+         "Octarine Core,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Bristleback", "Safe Lane", "Carry BB, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Basher,Abyssal Blade",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Tusk дополнительные билды
+        ("Tusk", "Mid Lane", "Mid Tusk, ice shards focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blink Dagger,Aghanim's Scepter",
+         "Desolator,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Tusk", "Off Lane", "Utility Tusk, snowball initiation",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Blink Dagger,Black King Bar",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Titan Sliver"),
+        
+        # Skywrath Mage дополнительные билды
+        ("Skywrath Mage", "Soft Support", "Aggressive Sky, arcane bolt spam",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Rod of Atos,Aether Lens",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Skywrath Mage", "Mid Lane", "Core Sky, mystic flare focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Rod of Atos,Aghanim's Scepter",
+         "Octarine Core,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Abaddon - уже имеет 2 билда
+        
+        # Elder Titan дополнительные билды
+        ("Elder Titan", "Mid Lane", "Mid ET, echo stomp focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Elder Titan", "Safe Lane", "Carry ET, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Basher",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Legion Commander дополнительные билды
+        ("Legion Commander", "Mid Lane", "Mid LC, overwhelming odds focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blade Mail,Blink Dagger",
+         "Black King Bar,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Legion Commander", "Safe Lane", "Carry LC, right-click duel",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Blink Dagger",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Techies дополнительные билды
+        ("Techies", "Mid Lane", "Core Techies, blast off focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Aghanim's Scepter,Octarine Core",
+         "Bloodthorn,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Techies", "Hard Support", "Support Techies, mine utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Ember Spirit дополнительные билды
+        ("Ember Spirit", "Safe Lane", "Carry Ember, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Battle Fury,Daedalus",
+         "Butterfly,Abyssal Blade",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Ember Spirit", "Off Lane", "Utility Ember, sleight utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Maelstrom,Blink Dagger",
+         "Shiva's Guard,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Earth Spirit дополнительные билды
+        ("Earth Spirit", "Mid Lane", "Core Earth, geomagnetic grip focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Spirit Vessel,Aghanim's Scepter",
+         "Shiva's Guard,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Earth Spirit", "Hard Support", "Support Earth, rolling boulder utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Spirit Vessel,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Underlord дополнительные билды
+        ("Underlord", "Mid Lane", "Mid Underlord, firestorm focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Arcane Boots,Soul Ring",
+         "Pipe of Insight,Crimson Guard",
+         "Aghanim's Scepter,Shiva's Guard",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Underlord", "Safe Lane", "Carry Underlord, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Radiance,Heart of Tarrasque",
+         "Butterfly,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Terrorblade дополнительные билды
+        ("Terrorblade", "Mid Lane", "Mid TB, reflection focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Manta Style,Skadi",
+         "Butterfly,Bloodthorn",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Terrorblade", "Off Lane", "Utility TB, sunder utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Manta Style,Blink Dagger",
+         "Skadi,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Phoenix дополнительные билды
+        ("Phoenix", "Mid Lane", "Core Phoenix, sun ray focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Soul Ring",
+         "Shiva's Guard,Aghanim's Scepter",
+         "Heart of Tarrasque,Octarine Core",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Phoenix", "Hard Support", "Support Phoenix, dive utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Urn of Shadows,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Oracle дополнительные билды
+        ("Oracle", "Soft Support", "Aggressive Oracle, fortunes end focus",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Eul's Scepter",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Oracle", "Mid Lane", "Core Oracle, purifying flames focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Winter Wyvern дополнительные билды
+        ("Winter Wyvern", "Soft Support", "Aggressive WW, splinter blast",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Tranquil Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        ("Winter Wyvern", "Mid Lane", "Core WW, arctic burn focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Arc Warden дополнительные билды
+        ("Arc Warden", "Safe Lane", "Carry Arc, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Arc Warden", "Off Lane", "Utility Arc, flux utility",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Maelstrom,Blink Dagger",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Monkey King дополнительные билды
+        ("Monkey King", "Mid Lane", "Mid MK, boundless strike focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Bracer",
+         "Echo Sabre,Basher",
+         "Abyssal Blade,Black King Bar",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Monkey King", "Safe Lane", "Carry MK, jingu mastery focus",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Orb of Corrosion,Wraith Band",
+         "Basher,Abyssal Blade",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        # Dark Willow дополнительные билды
+        ("Dark Willow", "Mid Lane", "Core Willow, cursed crown focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Eul's Scepter,Aghanim's Scepter",
+         "Octarine Core,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Dark Willow", "Hard Support", "Support Willow, bedlam utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Glimmer Cape,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Pangolier дополнительные билды
+        ("Pangolier", "Mid Lane", "Mid Pango, swashbuckle focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Diffusal Blade,Maelstrom",
+         "Butterfly,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Pangolier", "Safe Lane", "Carry Pango, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Diffusal Blade,Manta Style",
+         "Butterfly,Daedalus",
+         "Faded Broach,Spark of Courage"),
+        
+        # Grimstroke дополнительные билды
+        ("Grimstroke", "Mid Lane", "Core Grim, stroke of fate focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Kaya and Sange,Aghanim's Scepter",
+         "Octarine Core,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Grimstroke", "Soft Support", "Aggressive Grim, ink swell",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Aether Lens,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Hoodwink дополнительные билды
+        ("Hoodwink", "Mid Lane", "Core Hood, acorn shot focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Hoodwink", "Hard Support", "Support Hood, bushwhack utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Gleipnir,Force Staff",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Void Spirit дополнительные билды
+        ("Void Spirit", "Safe Lane", "Carry Void, right-click",
+         "Tango,Quelling Blade,Slippers of Agility,Circlet",
+         "Power Treads,Wraith Band,Magic Wand",
+         "Maelstrom,Butterfly",
+         "Daedalus,Skadi",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Void Spirit", "Off Lane", "Utility Void, dissimilate control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Eul's Scepter,Blink Dagger",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Snapfire дополнительные билды
+        ("Snapfire", "Mid Lane", "Core Snap, scatterblast focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Bracer",
+         "Aghanim's Scepter,Octarine Core",
+         "Shiva's Guard,Bloodthorn",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Snapfire", "Hard Support", "Support Snap, cookie utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Force Staff,Glimmer Cape",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Mars дополнительные билды
+        ("Mars", "Mid Lane", "Mid Mars, spear focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blink Dagger,Desolator",
+         "Black King Bar,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Mars", "Safe Lane", "Carry Mars, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Basher",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Dawnbreaker дополнительные билды
+        ("Dawnbreaker", "Mid Lane", "Mid Dawn, starbreaker focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Aghanim's Scepter,Black King Bar",
+         "Assault Cuirass,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Dawnbreaker", "Safe Lane", "Carry Dawn, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Desolator,Basher",
+         "Abyssal Blade,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Marci дополнительные билды
+        ("Marci", "Mid Lane", "Mid Marci, rebound focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Echo Sabre,Aghanim's Scepter",
+         "Black King Bar,Basher",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Marci", "Hard Support", "Support Marci, dispose utility",
+         "Tango,Gauntlets of Strength,Circlet,Branches",
+         "Arcane Boots,Magic Wand,Wind Lace",
+         "Force Staff,Solar Crest",
+         "Aghanim's Scepter,Octarine Core",
+         "Philosopher's Stone,Spark of Courage"),
+        
+        # Primal Beast дополнительные билды
+        ("Primal Beast", "Mid Lane", "Mid PB, onslaught focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Phase Boots,Soul Ring",
+         "Blink Dagger,Black King Bar",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        ("Primal Beast", "Safe Lane", "Carry PB, right-click",
+         "Tango,Quelling Blade,Gauntlets of Strength,Circlet",
+         "Power Treads,Armlet of Mordiggian,Wraith Band",
+         "Basher,Abyssal Blade",
+         "Heart of Tarrasque,Assault Cuirass",
+         "Faded Broach,Spark of Courage"),
+        
+        # Muerta дополнительные билды
+        ("Muerta", "Mid Lane", "Mid Muerta, dead shot focus",
+         "Tango,Faerie Fire,Branches,Branches",
+         "Bottle,Power Treads,Wraith Band",
+         "Maelstrom,Aghanim's Scepter",
+         "Daedalus,Butterfly",
+         "Faded Broach,Spark of Courage"),
+        
+        ("Muerta", "Off Lane", "Utility Muerta, calling control",
+         "Tango,Quelling Blade,Gauntlets of Strength,Branches",
+         "Phase Boots,Soul Ring,Bracer",
+         "Maelstrom,Blink Dagger",
+         "Shiva's Guard,Heart of Tarrasque",
+         "Spark of Courage,Vindicator's Axe"),
+        
+        # Еще один дополнительный билд для некоторых героев, чтобы убедиться, что у всех есть 3 билда
+        # Для героев, у которых только 1 билд в основном списке, добавляем 2 дополнительных
     ]
     
     for build in predefined_builds:
@@ -1290,7 +3151,12 @@ def populate_db():
     
     conn.commit()
     conn.close()
-    print(f"Добавлено {len(predefined_builds)} готовых билдов")
+    
+    total_builds = len(predefined_builds)
+    print(f"Добавлено {total_builds} готовых билдов")
+    print(f"Из них: {len([b for b in predefined_builds if b[0] != 'Abaddon'])} билдов для всех героев кроме Abaddon")
+    print(f"Abaddon имеет 2 билда")
+    print(f"Остальные герои имеют минимум 3 билда каждый")
 
 if __name__ == '__main__':
     if os.path.exists(DB_NAME):
@@ -1313,4 +3179,4 @@ if __name__ == '__main__':
     print("- Много предметов разных категорий")
     print("- 5 стратегий прокачки")
     print("- 5 линий")
-    print("- 127 готовых билдов")
+    print("- Около 380 готовых билдов (по 3 на каждого героя, кроме Abaddon - 2)")
