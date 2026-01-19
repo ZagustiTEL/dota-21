@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import random
 import sqlite3
 import os
@@ -20,17 +20,24 @@ def check_db_exists():
 def get_random_hero():
     """Получить случайного героя из базы данных"""
     if not check_db_exists():
-        return {'name': "Unknown Hero", 'image_url': ""}
+        return {'name': "Unknown Hero", 'image_url': url_for('static', filename='images/placeholder.jpg')}
     
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT name, image_url FROM heroes ORDER BY RANDOM() LIMIT 1')
+    cursor.execute('SELECT name, image_path FROM heroes ORDER BY RANDOM() LIMIT 1')
     result = cursor.fetchone()
     conn.close()
     
     if result:
-        return {'name': result[0], 'image_url': result[1]}
-    return {'name': "Unknown Hero", 'image_url': ""}
+        image_path = result[1] if result[1] else "static/images/placeholder.jpg"
+        # Преобразуем путь в URL для Flask
+        if image_path.startswith('static/'):
+            image_url = url_for('static', filename=image_path[7:])
+        else:
+            image_url = url_for('static', filename='images/placeholder.jpg')
+        
+        return {'name': result[0], 'image_url': image_url, 'image_path': image_path}
+    return {'name': "Unknown Hero", 'image_url': url_for('static', filename='images/placeholder.jpg')}
 
 def get_hero_by_name(hero_name):
     """Получить героя по имени"""
@@ -39,12 +46,23 @@ def get_hero_by_name(hero_name):
     
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT name, image_url FROM heroes WHERE name = ?', (hero_name,))
+    cursor.execute('SELECT name, image_path FROM heroes WHERE name = ?', (hero_name,))
     result = cursor.fetchone()
     conn.close()
     
     if result:
-        return {'name': result[0], 'image_url': result[1]}
+        image_path = result[1] if result[1] else "static/images/placeholder.jpg"
+        # Преобразуем путь в URL для Flask
+        if image_path.startswith('static/'):
+            image_url = url_for('static', filename=image_path[7:])
+        else:
+            image_url = url_for('static', filename='images/placeholder.jpg')
+        
+        return {
+            'name': result[0], 
+            'image_url': image_url,
+            'image_path': image_path
+        }
     return None
 
 def get_all_heroes():
@@ -54,12 +72,27 @@ def get_all_heroes():
     
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute('SELECT name, image_url FROM heroes ORDER BY name')
+    cursor.execute('SELECT name, image_path FROM heroes ORDER BY name')
     heroes = cursor.fetchall()
     conn.close()
     
     # Возвращаем список словарей с именем и изображением
-    return [{'name': hero[0], 'image_url': hero[1]} for hero in heroes]
+    hero_list = []
+    for hero in heroes:
+        image_path = hero[1] if hero[1] else "static/images/placeholder.jpg"
+        # Преобразуем путь в URL для Flask
+        if image_path.startswith('static/'):
+            image_url = url_for('static', filename=image_path[7:])
+        else:
+            image_url = url_for('static', filename='images/placeholder.jpg')
+        
+        hero_list.append({
+            'name': hero[0], 
+            'image_url': image_url,
+            'image_path': image_path
+        })
+    
+    return hero_list
 
 def get_random_lane():
     """Получить случайную линию из базы данных"""
@@ -118,8 +151,9 @@ def generate_random_build(hero_name=None):
     neutral_items = get_random_items("neutral", 2)
     
     build = {
-        "hero": hero['name'],  # Используем имя из объекта героя
-        "hero_image": hero['image_url'],  # Используем изображение из объекта героя
+        "hero": hero['name'],
+        "hero_image": hero['image_url'],  # Используем URL, сгенерированный Flask
+        "hero_image_path": hero.get('image_path', ''),  # Сохраняем путь
         "lane": lane,
         "skill_build": skill_build,
         "starting_items": starting_items,
@@ -167,8 +201,10 @@ def get_predefined_builds(hero_name=None):
         hero = get_hero_by_name(build['hero'])
         if hero:
             build['hero_image'] = hero['image_url']
+            build['hero_image_path'] = hero.get('image_path', '')
         else:
-            build['hero_image'] = ""
+            build['hero_image'] = url_for('static', filename='images/placeholder.jpg')
+            build['hero_image_path'] = "static/images/placeholder.jpg"
         
         builds.append(build)
     
@@ -203,8 +239,10 @@ def get_predefined_build_by_id(build_id):
         hero = get_hero_by_name(build['hero'])
         if hero:
             build['hero_image'] = hero['image_url']
+            build['hero_image_path'] = hero.get('image_path', '')
         else:
-            build['hero_image'] = ""
+            build['hero_image'] = url_for('static', filename='images/placeholder.jpg')
+            build['hero_image_path'] = "static/images/placeholder.jpg"
         
         conn.close()
         return build
@@ -287,5 +325,17 @@ if __name__ == '__main__':
     if not check_db_exists():
         print("\nЗАМЕЧАНИЕ: Запустите db_init.py для создания базы данных.")
         print("Приложение будет работать с ограниченной функциональностью.")
+    
+    # Проверяем наличие placeholder изображения
+    if not os.path.exists('static/images/placeholder.jpg'):
+        print("\nСоздаю placeholder изображение...")
+        from PIL import Image, ImageDraw
+        # Создаем простое placeholder изображение
+        img = Image.new('RGB', (256, 256), color='#1a1a2e')
+        d = ImageDraw.Draw(img)
+        d.text((128, 128), "?", fill="#ffffff", anchor="mm")
+        os.makedirs('static/images', exist_ok=True)
+        img.save('static/images/placeholder.jpg', 'JPEG')
+        print("✓ Placeholder изображение создано")
     
     app.run(debug=True, host='0.0.0.0', port=5000)
