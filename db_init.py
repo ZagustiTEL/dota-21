@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from pathlib import Path
 
 DB_NAME = 'Doza.db'
 
@@ -8,12 +9,12 @@ def init_db():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     
-    # Таблица героев
+    # Таблица героев - теперь храним локальный путь к изображению
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS heroes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE NOT NULL,
-            image_url TEXT
+            image_path TEXT
         )
     ''')
     
@@ -22,8 +23,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS items (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE NOT NULL,
-            category TEXT NOT NULL,
-            image_url TEXT
+            category TEXT NOT NULL
         )
     ''')
     
@@ -69,140 +69,156 @@ def populate_db():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     
-    # Герои с изображениями (все герои из обоих файлов)
+    # Герои Dota 2 с именами файлов
     heroes = [
-        ("Anti-Mage", "https://dota2.ru/img/heroes/anti_mage/icon.jpg"),
-        ("Axe", "https://dota2.ru/img/heroes/axe/icon.jpg"),
-        ("Bane", "https://dota2.ru/img/heroes/bane/icon.jpg"),
-        ("Bloodseeker", "https://dota2.ru/img/heroes/bloodseeker/icon.jpg"),
-        ("Crystal Maiden", "https://dota2.ru/img/heroes/crystal_maiden/icon.jpg"),
-        ("Drow Ranger", "https://dota2.ru/img/heroes/drow_ranger/icon.jpg"),
-        ("Earthshaker", "https://dota2.ru/img/heroes/earthshaker/icon.jpg"),
-        ("Juggernaut", "https://dota2.ru/img/heroes/juggernaut/icon.jpg"),
-        ("Mirana", "https://dota2.ru/img/heroes/mirana/icon.jpg"),
-        ("Morphling", "https://dota2.ru/img/heroes/morphling/icon.jpg"),
-        ("Shadow Fiend", "https://dota2.ru/img/heroes/shadow_fiend/icon.jpg"),
-        ("Phantom Lancer", "https://dota2.ru/img/heroes/phantom_lancer/icon.jpg"),
-        ("Puck", "https://dota2.ru/img/heroes/puck/icon.jpg"),
-        ("Pudge", "https://dota2.ru/img/heroes/pudge/icon.jpg"),
-        ("Razor", "https://dota2.ru/img/heroes/razor/icon.jpg"),
-        ("Sand King", "https://dota2.ru/img/heroes/sand_king/icon.jpg"),
-        ("Storm Spirit", "https://dota2.ru/img/heroes/storm_spirit/icon.jpg"),
-        ("Sven", "https://dota2.ru/img/heroes/sven/icon.jpg"),
-        ("Tiny", "https://dota2.ru/img/heroes/tiny/icon.jpg"),
-        ("Vengeful Spirit", "https://dota2.ru/img/heroes/vengeful_spirit/icon.jpg"),
-        ("Windranger", "https://dota2.ru/img/heroes/windranger/icon.jpg"),
-        ("Zeus", "https://dota2.ru/img/heroes/zeus/icon.jpg"),
-        ("Kunkka", "https://dota2.ru/img/heroes/kunkka/icon.jpg"),
-        ("Lina", "https://dota2.ru/img/heroes/lina/icon.jpg"),
-        ("Lion", "https://dota2.ru/img/heroes/lion/icon.jpg"),
-        ("Shadow Shaman", "https://dota2.ru/img/heroes/shadow_shaman/icon.jpg"),
-        ("Slardar", "https://dota2.ru/img/heroes/slardar/icon.jpg"),
-        ("Tidehunter", "https://dota2.ru/img/heroes/tidehunter/icon.jpg"),
-        ("Witch Doctor", "https://dota2.ru/img/heroes/witch_doctor/icon.jpg"),
-        ("Riki", "https://dota2.ru/img/heroes/riki/icon.jpg"),
-        ("Enigma", "https://dota2.ru/img/heroes/enigma/icon.jpg"),
-        ("Tinker", "https://dota2.ru/img/heroes/tinker/icon.jpg"),
-        ("Sniper", "https://dota2.ru/img/heroes/sniper/icon.jpg"),
-        ("Necrophos", "https://dota2.ru/img/heroes/necrophos/icon.jpg"),
-        ("Warlock", "https://dota2.ru/img/heroes/warlock/icon.jpg"),
-        ("Beastmaster", "https://dota2.ru/img/heroes/beastmaster/icon.jpg"),
-        ("Queen of Pain", "https://dota2.ru/img/heroes/queen_of_pain/icon.jpg"),
-        ("Venomancer", "https://dota2.ru/img/heroes/venomancer/icon.jpg"),
-        ("Faceless Void", "https://dota2.ru/img/heroes/faceless_void/icon.jpg"),
-        ("Wraith King", "https://dota2.ru/img/heroes/wraith_king/icon.jpg"),
-        ("Death Prophet", "https://dota2.ru/img/heroes/death_prophet/icon.jpg"),
-        ("Phantom Assassin", "https://dota2.ru/img/heroes/phantom_assassin/icon.jpg"),
-        ("Pugna", "https://dota2.ru/img/heroes/pugna/icon.jpg"),
-        ("Templar Assassin", "https://dota2.ru/img/heroes/templar_assassin/icon.jpg"),
-        ("Viper", "https://dota2.ru/img/heroes/viper/icon.jpg"),
-        ("Luna", "https://dota2.ru/img/heroes/luna/icon.jpg"),
-        ("Dragon Knight", "https://dota2.ru/img/heroes/dragon_knight/icon.jpg"),
-        ("Dazzle", "https://dota2.ru/img/heroes/dazzle/icon.jpg"),
-        ("Clockwerk", "https://dota2.ru/img/heroes/clockwerk/icon.jpg"),
-        ("Leshrac", "https://dota2.ru/img/heroes/leshrac/icon.jpg"),
-        ("Nature's Prophet", "https://dota2.ru/img/heroes/natures_prophet/icon.jpg"),
-        ("Lifestealer", "https://dota2.ru/img/heroes/lifestealer/icon.jpg"),
-        ("Dark Seer", "https://dota2.ru/img/heroes/dark_seer/icon.jpg"),
-        ("Clinkz", "https://dota2.ru/img/heroes/clinkz/icon.jpg"),
-        ("Omniknight", "https://dota2.ru/img/heroes/omniknight/icon.jpg"),
-        ("Enchantress", "https://dota2.ru/img/heroes/enchantress/icon.jpg"),
-        ("Huskar", "https://dota2.ru/img/heroes/huskar/icon.jpg"),
-        ("Night Stalker", "https://dota2.ru/img/heroes/night_stalker/icon.jpg"),
-        ("Broodmother", "https://dota2.ru/img/heroes/broodmother/icon.jpg"),
-        ("Bounty Hunter", "https://dota2.ru/img/heroes/bounty_hunter/icon.jpg"),
-        ("Weaver", "https://dota2.ru/img/heroes/weaver/icon.jpg"),
-        ("Jakiro", "https://dota2.ru/img/heroes/jakiro/icon.jpg"),
-        ("Batrider", "https://dota2.ru/img/heroes/batrider/icon.jpg"),
-        ("Chen", "https://dota2.ru/img/heroes/chen/icon.jpg"),
-        ("Spectre", "https://dota2.ru/img/heroes/spectre/icon.jpg"),
-        ("Ancient Apparition", "https://dota2.ru/img/heroes/ancient_apparition/icon.jpg"),
-        ("Doom", "https://dota2.ru/img/heroes/doom/icon.jpg"),
-        ("Ursa", "https://dota2.ru/img/heroes/ursa/icon.jpg"),
-        ("Spirit Breaker", "https://dota2.ru/img/heroes/spirit_breaker/icon.jpg"),
-        ("Gyrocopter", "https://dota2.ru/img/heroes/gyrocopter/icon.jpg"),
-        ("Alchemist", "https://dota2.ru/img/heroes/alchemist/icon.jpg"),
-        ("Invoker", "https://dota2.ru/img/heroes/invoker/icon.jpg"),
-        ("Silencer", "https://dota2.ru/img/heroes/silencer/icon.jpg"),
-        ("Outworld Destroyer", "https://dota2.ru/img/heroes/outworld_destroyer/icon.jpg"),
-        ("Lycan", "https://dota2.ru/img/heroes/lycan/icon.jpg"),
-        ("Brewmaster", "https://dota2.ru/img/heroes/brewmaster/icon.jpg"),
-        ("Shadow Demon", "https://dota2.ru/img/heroes/shadow_demon/icon.jpg"),
-        ("Lone Druid", "https://dota2.ru/img/heroes/lone_druid/icon.jpg"),
-        ("Chaos Knight", "https://dota2.ru/img/heroes/chaos_knight/icon.jpg"),
-        ("Meepo", "https://dota2.ru/img/heroes/meepo/icon.jpg"),
-        ("Treant Protector", "https://dota2.ru/img/heroes/treant_protector/icon.jpg"),
-        ("Ogre Magi", "https://dota2.ru/img/heroes/ogre_magi/icon.jpg"),
-        ("Undying", "https://dota2.ru/img/heroes/undying/icon.jpg"),
-        ("Rubick", "https://dota2.ru/img/heroes/rubick/icon.jpg"),
-        ("Disruptor", "https://dota2.ru/img/heroes/disruptor/icon.jpg"),
-        ("Nyx Assassin", "https://dota2.ru/img/heroes/nyx_assassin/icon.jpg"),
-        ("Naga Siren", "https://dota2.ru/img/heroes/naga_siren/icon.jpg"),
-        ("Keeper of the Light", "https://dota2.ru/img/heroes/keeper_of_the_light/icon.jpg"),
-        ("Io", "https://dota2.ru/img/heroes/io/icon.jpg"),
-        ("Visage", "https://dota2.ru/img/heroes/visage/icon.jpg"),
-        ("Slark", "https://dota2.ru/img/heroes/slark/icon.jpg"),
-        ("Medusa", "https://dota2.ru/img/heroes/medusa/icon.jpg"),
-        ("Troll Warlord", "https://dota2.ru/img/heroes/troll_warlord/icon.jpg"),
-        ("Centaur Warrunner", "https://dota2.ru/img/heroes/centaur_warrunner/icon.jpg"),
-        ("Magnus", "https://dota2.ru/img/heroes/magnus/icon.jpg"),
-        ("Timbersaw", "https://dota2.ru/img/heroes/timbersaw/icon.jpg"),
-        ("Bristleback", "https://dota2.ru/img/heroes/bristleback/icon.jpg"),
-        ("Tusk", "https://dota2.ru/img/heroes/tusk/icon.jpg"),
-        ("Skywrath Mage", "https://dota2.ru/img/heroes/skywrath_mage/icon.jpg"),
-        ("Abaddon", "https://dota2.ru/img/heroes/abaddon/icon.jpg"),
-        ("Elder Titan", "https://dota2.ru/img/heroes/elder_titan/icon.jpg"),
-        ("Legion Commander", "https://dota2.ru/img/heroes/legion_commander/icon.jpg"),
-        ("Techies", "https://dota2.ru/img/heroes/techies/icon.jpg"),
-        ("Ember Spirit", "https://dota2.ru/img/heroes/ember_spirit/icon.jpg"),
-        ("Earth Spirit", "https://dota2.ru/img/heroes/earth_spirit/icon.jpg"),
-        ("Underlord", "https://dota2.ru/img/heroes/underlord/icon.jpg"),
-        ("Terrorblade", "https://dota2.ru/img/heroes/terrorblade/icon.jpg"),
-        ("Phoenix", "https://dota2.ru/img/heroes/phoenix/icon.jpg"),
-        ("Oracle", "https://dota2.ru/img/heroes/oracle/icon.jpg"),
-        ("Winter Wyvern", "https://dota2.ru/img/heroes/winter_wyvern/icon.jpg"),
-        ("Arc Warden", "https://dota2.ru/img/heroes/arc_warden/icon.jpg"),
-        ("Monkey King", "https://dota2.ru/img/heroes/monkey_king/icon.jpg"),
-        ("Dark Willow", "https://dota2.ru/img/heroes/dark_willow/icon.jpg"),
-        ("Pangolier", "https://dota2.ru/img/heroes/pangolier/icon.jpg"),
-        ("Grimstroke", "https://dota2.ru/img/heroes/grimstroke/icon.jpg"),
-        ("Hoodwink", "https://dota2.ru/img/heroes/hoodwink/icon.jpg"),
-        ("Void Spirit", "https://dota2.ru/img/heroes/void_spirit/icon.jpg"),
-        ("Snapfire", "https://dota2.ru/img/heroes/snapfire/icon.jpg"),
-        ("Mars", "https://dota2.ru/img/heroes/mars/icon.jpg"),
-        ("Dawnbreaker", "https://dota2.ru/img/heroes/dawnbreaker/icon.jpg"),
-        ("Marci", "https://dota2.ru/img/heroes/marci/icon.jpg"),
-        ("Primal Beast", "https://dota2.ru/img/heroes/primal_beast/icon.jpg"),
-        ("Muerta", "https://dota2.ru/img/heroes/muerta/icon.jpg")
+        ("Anti-Mage", "anti_mage.jpg"),
+        ("Axe", "axe.jpg"),
+        ("Bane", "bane.jpg"),
+        ("Bloodseeker", "bloodseeker.jpg"),
+        ("Crystal Maiden", "crystal_maiden.jpg"),
+        ("Drow Ranger", "drow_ranger.jpg"),
+        ("Earthshaker", "earthshaker.jpg"),
+        ("Juggernaut", "juggernaut.jpg"),
+        ("Mirana", "mirana.jpg"),
+        ("Morphling", "morphling.jpg"),
+        ("Shadow Fiend", "shadow_fiend.jpg"),
+        ("Phantom Lancer", "phantom_lancer.jpg"),
+        ("Puck", "puck.jpg"),
+        ("Pudge", "pudge.jpg"),
+        ("Razor", "razor.jpg"),
+        ("Sand King", "sand_king.jpg"),
+        ("Storm Spirit", "storm_spirit.jpg"),
+        ("Sven", "sven.jpg"),
+        ("Tiny", "tiny.jpg"),
+        ("Vengeful Spirit", "vengeful_spirit.jpg"),
+        ("Windranger", "windranger.jpg"),
+        ("Zeus", "zeus.jpg"),
+        ("Kunkka", "kunkka.jpg"),
+        ("Lina", "lina.jpg"),
+        ("Lion", "lion.jpg"),
+        ("Shadow Shaman", "shadow_shaman.jpg"),
+        ("Slardar", "slardar.jpg"),
+        ("Tidehunter", "tidehunter.jpg"),
+        ("Witch Doctor", "witch_doctor.jpg"),
+        ("Riki", "riki.jpg"),
+        ("Enigma", "enigma.jpg"),
+        ("Tinker", "tinker.jpg"),
+        ("Sniper", "sniper.jpg"),
+        ("Necrophos", "necrophos.jpg"),
+        ("Warlock", "warlock.jpg"),
+        ("Beastmaster", "beastmaster.jpg"),
+        ("Queen of Pain", "queen_of_pain.jpg"),
+        ("Venomancer", "venomancer.jpg"),
+        ("Faceless Void", "faceless_void.jpg"),
+        ("Wraith King", "wraith_king.jpg"),
+        ("Death Prophet", "death_prophet.jpg"),
+        ("Phantom Assassin", "phantom_assassin.jpg"),
+        ("Pugna", "pugna.jpg"),
+        ("Templar Assassin", "templar_assassin.jpg"),
+        ("Viper", "viper.jpg"),
+        ("Luna", "luna.jpg"),
+        ("Dragon Knight", "dragon_knight.jpg"),
+        ("Dazzle", "dazzle.jpg"),
+        ("Clockwerk", "clockwerk.jpg"),
+        ("Leshrac", "leshrac.jpg"),
+        ("Nature's Prophet", "natures_prophet.jpg"),
+        ("Lifestealer", "lifestealer.jpg"),
+        ("Dark Seer", "dark_seer.jpg"),
+        ("Clinkz", "clinkz.jpg"),
+        ("Omniknight", "omniknight.jpg"),
+        ("Enchantress", "enchantress.jpg"),
+        ("Huskar", "huskar.jpg"),
+        ("Night Stalker", "night_stalker.jpg"),
+        ("Broodmother", "broodmother.jpg"),
+        ("Bounty Hunter", "bounty_hunter.jpg"),
+        ("Weaver", "weaver.jpg"),
+        ("Jakiro", "jakiro.jpg"),
+        ("Batrider", "batrider.jpg"),
+        ("Chen", "chen.jpg"),
+        ("Spectre", "spectre.jpg"),
+        ("Ancient Apparition", "ancient_apparition.jpg"),
+        ("Doom", "doom.jpg"),
+        ("Ursa", "ursa.jpg"),
+        ("Spirit Breaker", "spirit_breaker.jpg"),
+        ("Gyrocopter", "gyrocopter.jpg"),
+        ("Alchemist", "alchemist.jpg"),
+        ("Invoker", "invoker.jpg"),
+        ("Silencer", "silencer.jpg"),
+        ("Outworld Destroyer", "outworld_destroyer.jpg"),
+        ("Lycan", "lycan.jpg"),
+        ("Brewmaster", "brewmaster.jpg"),
+        ("Shadow Demon", "shadow_demon.jpg"),
+        ("Lone Druid", "lone_druid.jpg"),
+        ("Chaos Knight", "chaos_knight.jpg"),
+        ("Meepo", "meepo.jpg"),
+        ("Treant Protector", "treant_protector.jpg"),
+        ("Ogre Magi", "ogre_magi.jpg"),
+        ("Undying", "undying.jpg"),
+        ("Rubick", "rubick.jpg"),
+        ("Disruptor", "disruptor.jpg"),
+        ("Nyx Assassin", "nyx_assassin.jpg"),
+        ("Naga Siren", "naga_siren.jpg"),
+        ("Keeper of the Light", "keeper_of_the_light.jpg"),
+        ("Io", "io.jpg"),
+        ("Visage", "visage.jpg"),
+        ("Slark", "slark.jpg"),
+        ("Medusa", "medusa.jpg"),
+        ("Troll Warlord", "troll_warlord.jpg"),
+        ("Centaur Warrunner", "centaur_warrunner.jpg"),
+        ("Magnus", "magnus.jpg"),
+        ("Timbersaw", "timbersaw.jpg"),
+        ("Bristleback", "bristleback.jpg"),
+        ("Tusk", "tusk.jpg"),
+        ("Skywrath Mage", "skywrath_mage.jpg"),
+        ("Abaddon", "abaddon.jpg"),
+        ("Elder Titan", "elder_titan.jpg"),
+        ("Legion Commander", "legion_commander.jpg"),
+        ("Techies", "techies.jpg"),
+        ("Ember Spirit", "ember_spirit.jpg"),
+        ("Earth Spirit", "earth_spirit.jpg"),
+        ("Underlord", "underlord.jpg"),
+        ("Terrorblade", "terrorblade.jpg"),
+        ("Phoenix", "phoenix.jpg"),
+        ("Oracle", "oracle.jpg"),
+        ("Winter Wyvern", "winter_wyvern.jpg"),
+        ("Arc Warden", "arc_warden.jpg"),
+        ("Monkey King", "monkey_king.jpg"),
+        ("Dark Willow", "dark_willow.jpg"),
+        ("Pangolier", "pangolier.jpg"),
+        ("Grimstroke", "grimstroke.jpg"),
+        ("Hoodwink", "hoodwink.jpg"),
+        ("Void Spirit", "void_spirit.jpg"),
+        ("Snapfire", "snapfire.jpg"),
+        ("Mars", "mars.jpg"),
+        ("Dawnbreaker", "dawnbreaker.jpg"),
+        ("Marci", "marci.jpg"),
+        ("Primal Beast", "primal_beast.jpg"),
+        ("Muerta", "muerta.jpg")
     ]
     
-    for hero_name, hero_image in heroes:
-        cursor.execute('INSERT OR IGNORE INTO heroes (name, image_url) VALUES (?, ?)', 
-                      (hero_name, hero_image))
+    # Проверяем наличие папки с изображениями
+    image_dir = Path('static/images/heroes')
+    if not image_dir.exists():
+        print("\nПРЕДУПРЕЖДЕНИЕ: Папка с изображениями не найдена!")
+        print("Запустите download_images.py для скачивания изображений.")
+        print("Будут использованы placeholder изображения.")
+    
+    for hero_name, image_file in heroes:
+        # Проверяем существует ли файл
+        image_path = f"static/images/heroes/{image_file}"
+        
+        if os.path.exists(image_path):
+            cursor.execute('INSERT OR IGNORE INTO heroes (name, image_path) VALUES (?, ?)', 
+                          (hero_name, image_path))
+        else:
+            print(f"Предупреждение: изображение для {hero_name} не найдено ({image_file})")
+            # Используем placeholder
+            cursor.execute('INSERT OR IGNORE INTO heroes (name, image_path) VALUES (?, ?)', 
+                          (hero_name, "static/images/placeholder.jpg"))
     
     print(f"Добавлено {len(heroes)} героев")
     
-    # Предметы
+    # Предметы (остается без изменений)
     items_data = {
         "starting": [
             "Tango", "Healing Salve", "Clarity", "Iron Branch", "Gauntlets of Strength", 
@@ -3154,9 +3170,7 @@ def populate_db():
     
     total_builds = len(predefined_builds)
     print(f"Добавлено {total_builds} готовых билдов")
-    print(f"Из них: {len([b for b in predefined_builds if b[0] != 'Abaddon'])} билдов для всех героев кроме Abaddon")
-    print(f"Abaddon имеет 2 билда")
-    print(f"Остальные герои имеют минимум 3 билда каждый")
+    print(f"\nБаза данных успешно заполнена!")
 
 if __name__ == '__main__':
     if os.path.exists(DB_NAME):
@@ -3174,9 +3188,3 @@ if __name__ == '__main__':
     populate_db()
     print(f"\nБаза данных {DB_NAME} успешно создана и заполнена!")
     print(f"Расположение: {os.path.abspath(DB_NAME)}")
-    print("\nДобавлено:")
-    print("- 127 героев")
-    print("- Много предметов разных категорий")
-    print("- 5 стратегий прокачки")
-    print("- 5 линий")
-    print("- Около 380 готовых билдов (по 3 на каждого героя, кроме Abaddon - 2)")
