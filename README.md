@@ -30,7 +30,8 @@
 Dota2-Build-Generator/
 │
 ├── app.py              # Основное приложение Flask
-├── style.css           # Стили CSS
+├── db_init.py          # Инициализация базы данных
+├── download_images.py  # Скачивание изображений героев
 ├── Doza.db             # База данных SQLite (создается автоматически)
 │
 ├── templates/          # HTML шаблоны
