@@ -46,6 +46,9 @@ Dota2-Build-Generator/
     └── style.css       # Основные стили
 ```
 
+###Ссылка на сайт
+http://192.168.1.17:5000/
+
 ### Главное меню сайта
 <img width="1703" height="860" alt="image" src="https://github.com/user-attachments/assets/2d6efc63-056b-4db7-a836-f4e0743e5e7c" />
 
