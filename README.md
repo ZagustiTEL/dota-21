@@ -46,5 +46,11 @@ Dota2-Build-Generator/
     └── style.css       # Основные стили
 ```
 
+### Главное меню сайта
+<img width="1703" height="860" alt="image" src="https://github.com/user-attachments/assets/2d6efc63-056b-4db7-a836-f4e0743e5e7c" />
 
-<img width="1351" height="746" alt="image" src="https://github.com/user-attachments/assets/b55190a3-d5c6-4075-b8a1-5b76e4fae91c" />
+### Меню выбора героев
+<img width="1909" height="652" alt="image" src="https://github.com/user-attachments/assets/0c5569b7-c920-405f-b4c4-c4615febc07f" />
+
+### Пример работы сайта
+<img width="826" height="891" alt="image" src="https://github.com/user-attachments/assets/a2113e6a-3ec9-422e-a125-c0c5e224738a" />
